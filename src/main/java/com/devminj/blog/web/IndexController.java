@@ -12,19 +12,23 @@ public class IndexController {
 
     @GetMapping("/")
     public String home(Model model){
-        return "index";
+        return "contents/index";
     }
 
     @GetMapping("/about")
     public String about(Model model){
-        return "about";
+        return "contents/about";
     }
     @GetMapping("/post")
     public String post(Model model){
-        return "post";
+        return "contents/post";
     }
     @GetMapping("/contact")
     public String contact(Model model){
-        return "contact";
+        return "contents/contact";
+    }
+    @GetMapping("/test")
+    public String test(Model model){
+        return "contents/test";
     }
 }
