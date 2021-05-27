@@ -32,6 +32,8 @@ dependencies {
 	// Thymeleaf 레이아웃 적용
 	implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'
 
+	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+
 	implementation 'org.springframework.session:spring-session-jdbc'
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
