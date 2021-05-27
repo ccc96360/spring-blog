@@ -2,6 +2,7 @@ package com.devminj.blog.web;
 
 import com.devminj.blog.domain.posts.Post;
 import com.devminj.blog.domain.posts.PostsRepository;
+import com.devminj.blog.service.post.dto.PostResponseDto;
 import com.devminj.blog.service.post.dto.PostSaveRequestDto;
 import com.devminj.blog.service.post.dto.PostUpdateRequestDto;
 import org.junit.jupiter.api.AfterEach;
@@ -86,8 +87,6 @@ public class PostControllerTest {
                         .content(content)
                         .build()
         );
-        postsRepository.save(savePost);
-
         title = "테스트 게시글 제목 수정됨!! 1";
         content = "테스트 게시글 내용 수정됨!! 1";
 
@@ -115,5 +114,45 @@ public class PostControllerTest {
         assertThat(post.getAuthor()).isEqualTo(author);
 
 
+    }
+    @Test
+    public void Post_조회() throws Exception{
+        //given
+        Post savePost1 = postsRepository.save(
+                Post.builder()
+                        .title("게시글 1")
+                        .content("게시글 1")
+                        .author("작성자 1")
+                        .build()
+        );
+
+        String url = "http://localhost:" + port + "/api/v1/posts/" + savePost1.getId();
+
+
+        //when
+        ResponseEntity<PostResponseDto> responseEntity = restTemplate.getForEntity(url, PostResponseDto.class);
+        //then
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(responseEntity.getBody().getContent()).isEqualTo("게시글 1");
+        assertThat(responseEntity.getBody().getTitle()).isEqualTo("게시글 1");
+        assertThat(responseEntity.getBody().getAuthor()).isEqualTo("작성자 1");
+    }
+    @Test
+    public void Post_삭제() throws  Exception{
+        //given
+        Post savePost1 = postsRepository.save(
+                Post.builder()
+                        .title("게시글 1")
+                        .content("게시글 1")
+                        .author("작성자 1")
+                        .build()
+        );
+
+        String url = "http://localhost:" + port + "/api/v1/posts/" + savePost1.getId();
+        //when
+        restTemplate.delete(url);
+        //then
+        List<Post> all = postsRepository.findAll();
+        assertThat(all.isEmpty()).isEqualTo(true);
     }
 }

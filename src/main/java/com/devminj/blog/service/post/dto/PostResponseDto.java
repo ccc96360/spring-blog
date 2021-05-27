@@ -2,9 +2,11 @@ package com.devminj.blog.service.post.dto;
 
 import com.devminj.blog.domain.posts.Post;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
+@NoArgsConstructor
 @Getter
-public class PostResponseDto {
+public class PostResponseDto{
     private Long id;
     private String title;
     private String content;
@@ -16,4 +18,5 @@ public class PostResponseDto {
         this.content = entity.getContent();
         this.author = entity.getAuthor();
     }
+
 }
