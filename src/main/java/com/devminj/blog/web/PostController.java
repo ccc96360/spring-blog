@@ -17,18 +17,18 @@ public class PostController {
         return postService.findById(id);
     }
 
-    @PostMapping("api/v1/posts")
+    @PostMapping("api/v1/admin/posts")
     public Long save(@RequestBody PostSaveRequestDto requestDto){
         return postService.save(requestDto);
     }
 
-    @PutMapping("api/v1/posts/{id}")
+    @PutMapping("api/v1/admin/posts/{id}")
     public Long update(@PathVariable Long id, @RequestBody PostUpdateRequestDto requestDto){
         return postService.update(id, requestDto);
 
     }
 
-    @DeleteMapping("api/v1/posts/{id}")
+    @DeleteMapping("api/v1/admin/posts/{id}")
     public Long delete(@PathVariable Long id){
         postService.delete(id);
         return id;
