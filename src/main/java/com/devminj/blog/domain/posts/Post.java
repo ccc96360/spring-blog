@@ -1,5 +1,6 @@
 package com.devminj.blog.domain.posts;
 
+import com.devminj.blog.domain.BaseTime;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,7 +10,7 @@ import javax.persistence.*;
 @Getter
 @NoArgsConstructor
 @Entity
-public class Post {
+public class Post extends BaseTime {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

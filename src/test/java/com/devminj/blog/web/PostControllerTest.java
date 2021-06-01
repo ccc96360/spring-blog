@@ -1,11 +1,14 @@
 package com.devminj.blog.web;
 
+import com.devminj.blog.domain.BaseTime;
 import com.devminj.blog.domain.posts.Post;
 import com.devminj.blog.domain.posts.PostsRepository;
 import com.devminj.blog.service.post.dto.PostResponseDto;
 import com.devminj.blog.service.post.dto.PostSaveRequestDto;
 import com.devminj.blog.service.post.dto.PostUpdateRequestDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -21,7 +24,10 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MockMvcBuilder;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.filter.CharacterEncodingFilter;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -52,6 +58,7 @@ public class PostControllerTest {
     public void setup(){
         mvc = MockMvcBuilders
                 .webAppContextSetup(context)
+                .addFilter(new CharacterEncodingFilter("UTF-8", true))
                 .apply(springSecurity())
                 .build();
     }
@@ -139,7 +146,7 @@ public class PostControllerTest {
         assertThat(post.getTitle()).isEqualTo(title);
         assertThat(post.getContent()).isEqualTo(content);
         assertThat(post.getAuthor()).isEqualTo(author);
-
+        System.out.println(post.getCreateDate() + " " + post.getModifiedDate());
 
     }
     @Test
@@ -157,11 +164,18 @@ public class PostControllerTest {
         String url = "http://localhost:" + port + "/api/v1/posts/" + savePost1.getId();
 
 
+        PostResponseDto expected = new PostResponseDto(savePost1);
+
         //when
+
 //        ResponseEntity<PostResponseDto> responseEntity = restTemplate.getForEntity(url, PostResponseDto.class);
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.registerModule(new JavaTimeModule());
+        objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+
         mvc.perform(get(url))
             .andExpect(status().isOk())
-            .andExpect(content().json(new ObjectMapper().writeValueAsString(savePost1)))
+            .andExpect(content().json(objectMapper.writeValueAsString(expected)))
             .andDo(print());
         //then
 //        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
@@ -189,5 +203,24 @@ public class PostControllerTest {
         //then
         List<Post> all = postsRepository.findAll();
         assertThat(all.isEmpty()).isEqualTo(true);
+    }
+
+    @Test
+    public void BaseTimeEntity_등록(){
+        //given
+        String now = LocalDateTime.of(2021,06,01,0,0).format(DateTimeFormatter.ofPattern(BaseTime.DATE_FORMAT));
+        postsRepository.save(
+                Post.builder()
+                        .title("title")
+                        .content("content")
+                        .author("author")
+                        .build());
+        //when
+        List<Post> posts = postsRepository.findAll();
+        //then
+        Post post = posts.get(0);
+        System.out.println(">>>>>>>>> createDate = " + post.getCreateDate() + ", modifiedDate = " + post.getModifiedDate());
+        assertThat(post.getCreateDate()).isGreaterThan(now);
+        assertThat(post.getModifiedDate()).isGreaterThan(now);
     }
 }
