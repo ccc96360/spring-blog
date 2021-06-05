@@ -18,6 +18,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.*;
+import org.springframework.security.test.context.support.WithAnonymousUser;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
@@ -68,7 +69,8 @@ public class PostControllerTest {
     }
 
     @Test
-    @WithMockUser(roles = "ADMIN")
+    //@WithMockUser(roles = "GUEST")
+    @WithAnonymousUser
     public void Post_등록() throws Exception{
         //given
        String title = "테스트 게시글 제목 1";

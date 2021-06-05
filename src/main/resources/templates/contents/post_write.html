@@ -9,12 +9,16 @@
 
     <form>
         <div class="form-group">
-            <label for="title">Title</label>
+            <label for="title">제목</label>
             <input type="text" class="form-control" placeholder="제목" id="title">
         </div>
         <div class="form-group">
+            <label for="author">작성자</label>
+            <input type="text" class="form-control" placeholder="작성자" id="author">
+        </div>
+        <div class="form-group">
             <label for="content">content</label>
-            <textarea class="form-control" name="editordata" id="content"></textarea>
+            <textarea class="form-control" id="content"></textarea>
             <script>
                 var ckeditor_config = {
                     resize_enable : false,
@@ -25,10 +29,9 @@
                 CKEDITOR.replace("content", ckeditor_config);
             </script>
         </div>
-
-        </script>
-        <button id = "btn_save" class="btn btn-primary">작성 하기</button>
     </form>
+    <button type="button" class="btn btn-primary" id="btn_save">작성 하기</button>
+    <a href="/" id="btn_cancel" class="btn btn-secondary">취소</a>
 
 </div>
 
