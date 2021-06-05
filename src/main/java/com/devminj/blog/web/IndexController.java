@@ -27,18 +27,42 @@ public class IndexController {
 
     @GetMapping("/about")
     public String about(Model model){
+        SessionUser user = (SessionUser) httpSession.getAttribute("user");
+        if(user != null){
+            if(user.getPlatform().equals("github")) model.addAttribute("userName", user.getSiteId());
+        }
         return "contents/about";
     }
     @GetMapping("/post")
     public String post(Model model){
+        SessionUser user = (SessionUser) httpSession.getAttribute("user");
+        if(user != null){
+            if(user.getPlatform().equals("github")) model.addAttribute("userName", user.getSiteId());
+        }
         return "contents/post";
     }
     @GetMapping("/contact")
     public String contact(Model model){
+        SessionUser user = (SessionUser) httpSession.getAttribute("user");
+        if(user != null){
+            if(user.getPlatform().equals("github")) model.addAttribute("userName", user.getSiteId());
+        }
         return "contents/contact";
     }
     @GetMapping("/test")
     public String test(Model model){
+        SessionUser user = (SessionUser) httpSession.getAttribute("user");
+        if(user != null){
+            if(user.getPlatform().equals("github")) model.addAttribute("userName", user.getSiteId());
+        }
         return "contents/test";
+    }
+    @GetMapping("/post_write")
+    public String postWrite(Model model){
+        SessionUser user = (SessionUser) httpSession.getAttribute("user");
+        if(user != null){
+            if(user.getPlatform().equals("github")) model.addAttribute("userName", user.getSiteId());
+        }
+        return "contents/post_write";
     }
 }
