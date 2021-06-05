@@ -18,7 +18,7 @@ import java.time.format.DateTimeFormatter;
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
 public class BaseTime {
-    public static final String DATE_FORMAT = "yy-MM-dd HH:mm:ss";
+    public static final String DATE_FORMAT = "yy년 MM월 dd일 HH시 mm분";
     private String createDate;
     private String modifiedDate;
 

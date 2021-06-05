@@ -2,12 +2,16 @@ package com.devminj.blog.service.post;
 
 import com.devminj.blog.domain.posts.Post;
 import com.devminj.blog.domain.posts.PostsRepository;
+import com.devminj.blog.service.post.dto.PostListResponseDto;
 import com.devminj.blog.service.post.dto.PostResponseDto;
 import com.devminj.blog.service.post.dto.PostSaveRequestDto;
 import com.devminj.blog.service.post.dto.PostUpdateRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -38,5 +42,13 @@ public class PostService {
         Post post = postsRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("존재 하지 않는 게시글에 접근 했습니다. id =" + id));
         return new PostResponseDto(post);
     }
+
+    @Transactional(readOnly = true)
+    public List<PostListResponseDto> findAllDesc(){
+        return postsRepository.findAllDesc().stream()
+                .map(PostListResponseDto::new)
+                .collect(Collectors.toList());
+    }
+
 
 }

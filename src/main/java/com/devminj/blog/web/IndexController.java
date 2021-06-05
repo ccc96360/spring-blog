@@ -19,6 +19,7 @@ public class IndexController {
     @GetMapping("/")
     public String home(Model model){
         SessionUser user = (SessionUser) httpSession.getAttribute("user");
+        model.addAttribute("posts", postService.findAllDesc());
         if(user != null){
             if(user.getPlatform().equals("github")) model.addAttribute("userName", user.getSiteId());
         }
