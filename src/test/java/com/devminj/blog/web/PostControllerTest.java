@@ -69,8 +69,8 @@ public class PostControllerTest {
     }
 
     @Test
-    //@WithMockUser(roles = "GUEST")
-    @WithAnonymousUser
+    @WithMockUser(roles = "ADMIN")
+    //@WithAnonymousUser
     public void Post_등록() throws Exception{
         //given
        String title = "테스트 게시글 제목 1";
