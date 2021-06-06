@@ -8,12 +8,12 @@
         <div class="col-md-4">
             <div class="single-blog-item">
                 <div class="blog-thumnail">
-                    <a href="#"><img src="/assets/img/Post_Thumbnail_Default_370x275.png" alt="blog-img"></a>
+                    <a th:href="@{'/post/' + ${post.id}}"><img src="/assets/img/Post_Thumbnail_Default_370x275.png" alt="blog-img"></a>
                 </div>
                 <div class="blog-content">
-                    <h4><a href="#" th:text="${post.title}">Default Title</a></h4>
+                    <h4><a th:href="@{'/post/' + ${post.id}}" th:text="${post.title}">Default Title</a></h4>
                     <p th:text="${post.author}">글 내용?</p>
-                    <a href="#" class="more-btn">View More</a>
+                    <a th:href="@{'/post/' + ${post.id}}" class="more-btn">View More</a>
                 </div>
                 <span class="blog-date" th:text="${post.modifiedTime}">May 03, 2015</span>
             </div>

@@ -5,37 +5,34 @@
       layout:decorator="default_layout"
 >
 <!-- Post Content-->
-<article layout:fragment="content" class="mb-4">
-    <div class="container px-4 px-lg-5">
-        <div class="row gx-4 gx-lg-5 justify-content-center">
-            <div class="col-md-10 col-lg-8 col-xl-7">
-                <em>asdasd</em><br />
-                <em>asdasd가나다람=</em><br />
-                <em>아자아차참낭</em>
-                <p>CKEditor4<br />
-                    <br />
-                    <img alt="" src="https://raw.githubusercontent.com/ccc96360/ccc96360/main/images/Default_Image.png" style="height:370px; width:773px" /></p>
-                ㅁㄴ<br />
-                ㅁ<br />
-                ㄴ<br />
-                <br />
-                <br />
-                ㄴ<br />
-                ㅁ<br />
-                ㄴ<br />
-                <br />
-                <br />
-                ㅁㄴ<br />
-                ㅁ<br />
-                ㄴㅁㄴ<br />
-                ^/*-!@#$@!^#&amp;!#&amp;!
-                <ol>
-                    <li>&nbsp;</li>
-                </ol>
-
-                </p>
-            </div>
-        </div>
+<div layout:fragment="content" class="container mb-4">
+    <div id="title" class="row" style="border-bottom: solid 1px #dedede">
+        <div align="left" class="col-md-8"><h2 th:text="${post.title}" >Default Title</h2></div>
+        <div align="right" class="col-md-4" ><h4 th:text="${post.modifiedTime}">마지막 수정 날짜</h4></div>
     </div>
-</article>
+    <div id="post_info" class="row" style="border-bottom: solid 1px #dedede">
+        <p>Tags:
+            <a href="#"><span class="label label-info">Snipp</span></a>
+            <a href="#"><span class="label label-info">Bootstrap</span></a>
+            <a href="#"><span class="label label-info">UI</span></a>
+            <a href="#"><span class="label label-info">growth</span></a>
+            | <i class="fas fa-user"></i> <span th:text="${post.author}">Admin</span>
+            | <i class="fas fa-comments"></i> <a href="#">3</a>
+        </p>
+    </div>
+    <div th:if="${role == 'ROLE_ADMIN'}" id="controller" class="row">
+        <button type="button" class="btn btn-success col-md-6" id="btn_update">수정 하기</button>
+        <button type="button" class="btn btn-danger col-md-6" id="btn_delete">삭제 하기</button>
+    </div>
+    <label for = "content" class="row">Content</label>
+    <div id = "content" class="row" style="border-bottom: solid 1px #dedede">
+        <script th:inline="javascript">
+            /*<![CDATA[*/
+            var content = /*[[ ${post.content} ]]*/;
+            /*]]*/
+            document.write(content);
+        </script>
+    </div>
+    <a href = "/" type="button" class="btn btn-secondary">홈으로 돌아가기</a>
+</div>
 </html>

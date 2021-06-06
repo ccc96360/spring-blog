@@ -10,10 +10,12 @@ public class SessionUser implements Serializable {
     private String siteId;
     private String picture;
     private String platform;
+    private String role;
 
     public SessionUser(User user) {
         this.siteId = user.getSiteId();
         this.picture = user.getPicture();
         this.platform = user.getPlatform();
+        this.role = user.getRoleKey();
     }
 }

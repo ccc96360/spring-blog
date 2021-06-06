@@ -1,10 +1,12 @@
 create table post (
    id bigint not null auto_increment,
+    create_date varchar(255),
+    modified_date varchar(255),
     author varchar(255),
     content TEXT not null,
     title varchar(500) not null,
     primary key (id)
-) engine=MyISAM
+) engine=MyISAM;
 
 create table user (
    id bigint not null auto_increment,

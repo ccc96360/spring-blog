@@ -2,6 +2,7 @@ package com.devminj.blog.config.auth;
 
 import com.devminj.blog.domain.user.Role;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -17,8 +18,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                     .authorizeRequests()
                     //.antMatchers("/api/v1/user/**").hasRole(Role.USER.name())
-                    .antMatchers("/api/v1/admin/**", "/post_write" ).hasRole(Role.ADMIN.name())
-                    .antMatchers("/", "/about", "/post", "/contact",
+                    .antMatchers("/api/v1/admin/**", "/post/write" ).hasRole(Role.ADMIN.name())
+                    .antMatchers("/", "/about", "/post/**", "/contact",
                             "/api/v1/**", "/profile",
                             //test
                             "/ckeditor/**", "/css/**", "/images/**", "/js/**", "/h2-console/**", "/assets/**").permitAll()
