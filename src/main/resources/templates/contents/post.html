@@ -5,7 +5,7 @@
       layout:decorator="default_layout"
 >
 <!-- Post Content-->
-<div layout:fragment="content" class="container mb-4">
+<div layout:fragment="content" class="container">
     <div id="title" class="row" style="border-bottom: solid 1px #dedede">
         <div align="left" class="col-md-8"><h2 th:text="${post.title}" >Default Title</h2></div>
 
@@ -40,6 +40,7 @@
             crossorigin="anonymous"
             async>
     </script>
-    <a href = "/" type="button" class="btn btn-secondary">홈으로 돌아가기</a>
+    <th:block th:replace="contents/component/post_list_mini :: posts_mini"></th:block>
+    <a href = "/" type="button" class="btn btn-secondary pull-left">홈으로 돌아가기</a>
 </div>
 </html>

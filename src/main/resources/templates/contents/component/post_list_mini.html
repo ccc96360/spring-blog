@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+>
+<div th:fragment="posts_mini" class="row">
+    <label for="other_posts">최근 작성된 게시글</label>
+    <table id="other_posts" class="table table-hover">
+        <thead>
+            <tr>
+                <th>제목</th>
+                <th class="text-right">마지막 수정 날짜</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr onclick="location.href='1'">
+                <td>제목이 이렇게 들어가는것 (1) - 제목</td>
+                <td class="text-right">21년 09월 12일 12시 59분</td>
+            </tr>
+            <tr onclick="location.href='2'">
+                <td>제목이 이렇게 들어가는것 (2) - 제목</td>
+                <td class="text-right">21년 09월 12일 12시 59분</td>
+            </tr>
+            <tr onclick="location.href='4'">
+                <td>제목이 이렇게 들어가는것 (3) - 제목</td>
+                <td class="text-right">21년 09월 12일 12시 59분</td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="text-center">
+        <ul class="pagination">
+            <li><a href="#">1</a></li>
+            <li><a href="#">2</a></li>
+            <li><a href="#">3</a></li>
+            <li><a href="#">4</a></li>
+            <li><a href="#">5</a></li>
+        </ul>
+    </div>
+</div>
+</html>
