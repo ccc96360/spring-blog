@@ -8,7 +8,7 @@
 <div layout:fragment="content" class="container mb-4">
     <div id="title" class="row" style="border-bottom: solid 1px #dedede">
         <div align="left" class="col-md-8"><h2 th:text="${post.title}" >Default Title</h2></div>
-        <div align="right" class="col-md-4" ><h4 th:text="${post.modifiedTime}">마지막 수정 날짜</h4></div>
+
     </div>
     <div id="post_info" class="row" style="border-bottom: solid 1px #dedede">
         <p>Tags:
@@ -17,7 +17,7 @@
             <a href="#"><span class="label label-info">UI</span></a>
             <a href="#"><span class="label label-info">growth</span></a>
             | <i class="fas fa-user"></i> <span th:text="${post.author}">Admin</span>
-            | <i class="fas fa-comments"></i> <a href="#">3</a>
+            | <span th:text="@{'마지막 수정 일:' + ${post.modifiedTime}}">마지막 수정 날짜</span>
         </p>
     </div>
     <div th:if="${role == 'ROLE_ADMIN'}" id="controller" class="row">
