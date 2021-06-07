@@ -123,7 +123,7 @@ public class PostControllerTest {
 
         PostUpdateRequestDto requestDto =
                 PostUpdateRequestDto.builder()
-                        .contents(content)
+                        .content(content)
                         .title(title)
                         .build();
 
