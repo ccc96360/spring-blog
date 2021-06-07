@@ -21,8 +21,7 @@
         </p>
     </div>
     <div th:if="${role == 'ROLE_ADMIN'}" id="controller" class="row">
-        <button type="button" class="btn btn-success col-md-6" id="btn_update">수정 하기</button>
-        <button type="button" class="btn btn-danger col-md-6" id="btn_delete">삭제 하기</button>
+        <a th:href="@{'/post/update/' + ${post.id}}" type="button" class="btn btn-success " >수정 하기</a>
     </div>
     <label for = "content" class="row">Content</label>
     <div id = "content" class="row" style="border-bottom: solid 1px #dedede">
