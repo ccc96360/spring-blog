@@ -24,7 +24,7 @@
         <a th:href="@{'/post/update/' + ${post.id}}" type="button" class="btn btn-success " >수정 하기</a>
     </div>
     <label for = "content" class="row">Content</label>
-    <div id = "content" class="row" style="border-bottom: solid 1px #dedede">
+    <div id = "content" class="row post_detail" style="border-bottom: solid 1px #dedede">
         <script th:inline="javascript">
             /*<![CDATA[*/
             var content = /*[[ ${post.content} ]]*/;
@@ -32,6 +32,14 @@
             document.write(content);
         </script>
     </div>
+    <script src="https://utteranc.es/client.js"
+            repo="ccc96360/blog-comment"
+            issue-term="pathname"
+            label="comments"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+    </script>
     <a href = "/" type="button" class="btn btn-secondary">홈으로 돌아가기</a>
 </div>
 </html>
