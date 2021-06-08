@@ -24,6 +24,7 @@ var main = {
             author : $('#author').val(),
             content : CKEDITOR.instances['content'].getData()
         };
+        data.tags = $("select").val(),
         console.log(data)
         $.ajax({
             type : 'POST',

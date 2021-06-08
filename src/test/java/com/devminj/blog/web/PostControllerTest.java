@@ -3,6 +3,7 @@ package com.devminj.blog.web;
 import com.devminj.blog.domain.BaseTime;
 import com.devminj.blog.domain.posts.Post;
 import com.devminj.blog.domain.posts.PostsRepository;
+import com.devminj.blog.domain.posts.Tag;
 import com.devminj.blog.service.post.dto.PostResponseDto;
 import com.devminj.blog.service.post.dto.PostSaveRequestDto;
 import com.devminj.blog.service.post.dto.PostUpdateRequestDto;
@@ -29,6 +30,7 @@ import org.springframework.web.filter.CharacterEncodingFilter;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -76,24 +78,21 @@ public class PostControllerTest {
        String title = "테스트 게시글 제목 1";
        String content = "테스트 게시글 내용 1";
        String author = "테스트 게시글 작가 1";
-
+       List<String> tags = Arrays.asList("A", "B", "C", "D", "E");
        PostSaveRequestDto requestDto = PostSaveRequestDto.builder()
                                         .content(content)
                                         .title(title)
                                         .author(author)
+                                        .tags(tags)
                                         .build();
 
        String url = "http://localhost:" + port + "/api/v1/admin/posts";
        // when
-       //ResponseEntity<Long> responseEntity =  restTemplate.postForEntity(url, requestDto, Long.class);
        mvc.perform(post(url)
                .contentType(MediaType.APPLICATION_JSON)
                .content(new ObjectMapper().writeValueAsString(requestDto)))
            .andExpect(status().isOk());
         //then
-
-//       assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
-//       assertThat(responseEntity.getBody()).isGreaterThan(0L);
 
        List<Post> all = postsRepository.findAll();
        Post post = all.get(0);
@@ -101,6 +100,9 @@ public class PostControllerTest {
        assertThat(post.getTitle()).isEqualTo(title);
        assertThat(post.getContent()).isEqualTo(content);
        assertThat(post.getAuthor()).isEqualTo(author);
+       for(Tag tag : post.getTags()){
+           assertThat(tags.contains(tag.getName())).isEqualTo(true);
+       }
 
     }
     @Test
@@ -128,10 +130,8 @@ public class PostControllerTest {
                         .build();
 
         String url = "http://localhost:" + port + "/api/v1/admin/posts/" + savePost.getId();
-        //HttpEntity<PostUpdateRequestDto> requestEntity = new HttpEntity<>(requestDto);
         //when
 
-        //ResponseEntity<Long> responseEntity = restTemplate.exchange(url, HttpMethod.PUT, requestEntity, Long.class);
         mvc.perform(put(url)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(new ObjectMapper().writeValueAsString(requestDto)))
@@ -139,8 +139,6 @@ public class PostControllerTest {
 
         //then
 
-//        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
-//        assertThat(responseEntity.getBody()).isGreaterThan(0L);
 
         List<Post> all = postsRepository.findAll();
 
@@ -155,11 +153,13 @@ public class PostControllerTest {
     @WithMockUser(roles = "ADMIN")
     public void Post_조회() throws Exception{
         //given
+        List<String> tags = Arrays.asList("A", "B", "C", "D", "E");
         Post savePost1 = postsRepository.save(
                 Post.builder()
                         .title("게시글 1")
                         .content("게시글 1")
                         .author("작성자 1")
+                        .tags(tags)
                         .build()
         );
 
@@ -180,10 +180,7 @@ public class PostControllerTest {
             .andExpect(content().json(objectMapper.writeValueAsString(expected)))
             .andDo(print());
         //then
-//        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
-//        assertThat(responseEntity.getBody().getContent()).isEqualTo("게시글 1");
-//        assertThat(responseEntity.getBody().getTitle()).isEqualTo("게시글 1");
-//        assertThat(responseEntity.getBody().getAuthor()).isEqualTo("작성자 1");
+
     }
     @Test
     @WithMockUser(roles = "ADMIN")

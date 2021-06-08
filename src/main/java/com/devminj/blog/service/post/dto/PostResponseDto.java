@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @NoArgsConstructor
 @Getter
@@ -15,6 +16,7 @@ public class PostResponseDto{
     private String author;
     private String createTime;
     private String modifiedTime;
+    private List<String> tags;
 
     public PostResponseDto(Post entity) {
         this.id = entity.getId();
@@ -23,6 +25,7 @@ public class PostResponseDto{
         this.author = entity.getAuthor();
         this.createTime = entity.getCreateDate();
         this.modifiedTime = entity.getModifiedDate();
+        this.tags = entity.tagsToStringTags();
     }
 
 }
