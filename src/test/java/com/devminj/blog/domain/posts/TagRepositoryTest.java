@@ -22,6 +22,12 @@ public class TagRepositoryTest {
     @Autowired
     TagRepository tagRepository;
 
+    @BeforeEach
+    public void setup(){
+        postsRepository.deleteAll();
+        tagRepository.deleteAll();
+    }
+
     @Test
     public void 태그별_개수_세기(){
         //given

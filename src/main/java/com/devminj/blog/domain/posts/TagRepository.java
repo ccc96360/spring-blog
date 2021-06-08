@@ -11,6 +11,6 @@ public interface TagRepository extends JpaRepository<Tag, Long> {
     @Query("Select distinct t.name From Tag t")
     List<String> findAllDistinctName();
 
-    @Query("Select count(*) from Tag t where t.name= :name")
+    @Query("Select count(*) from Tag t where t.name= :name and post_id is not null")
     Long NumberOfName(@Param("name") String name);
 }

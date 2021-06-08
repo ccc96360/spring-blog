@@ -67,13 +67,9 @@ public class PostControllerTest {
                 .addFilter(new CharacterEncodingFilter("UTF-8", true))
                 .apply(springSecurity())
                 .build();
-    }
-    @AfterEach
-    public void tearDown() throws Exception{
         postsRepository.deleteAll();
         tagRepository.deleteAll();
     }
-
     @Test
     @WithMockUser(roles = "ADMIN")
     //@WithAnonymousUser

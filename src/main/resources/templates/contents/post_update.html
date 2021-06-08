@@ -17,6 +17,13 @@
             <input type="text" class="form-control" placeholder="제목" id="title" th:value="${post.title}">
         </div>
         <div class="form-group">
+            <label for="tags">Tags:</label>
+            <select multiple data-role="tagsinput" id="tags">
+                <option th:each="tag: ${post.tags}"  th:value="${tag}"></option>
+            </select>
+            <script src="/js/app/bootstrap-tagsinput.js"></script>
+        </div>
+        <div class="form-group">
             <label for="author">작성자</label>
             <input readonly type="text" class="form-control" placeholder="작성자" id="author" th:value="${post.author}">
         </div>

@@ -31,19 +31,10 @@ public class IndexController {
         return "contents/index";
     }
 
-    @GetMapping("/about")
-    public String about(Model model, @LoginUser SessionUser user){
-        model.addAttribute("role","ROLE_GUEST");
-        if(user != null){
-            if(user.getPlatform().equals("github")) model.addAttribute("userName", user.getSiteId());
-            model.addAttribute("role", user.getRole());
-        }
-        return "contents/about";
-    }
     @GetMapping("/post/{id}")
     public String post(Model model, @LoginUser SessionUser user, @PathVariable Long id){
         PostResponseDto postResponseDto = postService.findById(id);
-
+        System.out.println(postResponseDto.getTags());
         model.addAttribute("post", postResponseDto);
         model.addAttribute("role","ROLE_GUEST");
         if(user != null){
@@ -61,15 +52,7 @@ public class IndexController {
         }
         return "contents/contact";
     }
-    @GetMapping("/test")
-    public String test(Model model, @LoginUser SessionUser user){
-        model.addAttribute("role","ROLE_GUEST");
-        if(user != null){
-            if(user.getPlatform().equals("github")) model.addAttribute("userName", user.getSiteId());
-            model.addAttribute("role", user.getRole());
-        }
-        return "contents/test";
-    }
+
     @GetMapping("/post/write")
     public String postWrite(Model model, @LoginUser SessionUser user){
         model.addAttribute("role","ROLE_GUEST");

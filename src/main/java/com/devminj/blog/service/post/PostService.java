@@ -2,6 +2,7 @@ package com.devminj.blog.service.post;
 
 import com.devminj.blog.domain.posts.Post;
 import com.devminj.blog.domain.posts.PostsRepository;
+import com.devminj.blog.domain.posts.TagRepository;
 import com.devminj.blog.service.post.dto.PostListResponseDto;
 import com.devminj.blog.service.post.dto.PostResponseDto;
 import com.devminj.blog.service.post.dto.PostSaveRequestDto;
@@ -17,7 +18,6 @@ import java.util.stream.Collectors;
 @Service
 public class PostService {
     private final PostsRepository postsRepository;
-
     @Transactional
     public Long save(PostSaveRequestDto postSaveRequestDto){
         return postsRepository.save(postSaveRequestDto.toEntity()).getId();
