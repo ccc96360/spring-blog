@@ -4,6 +4,7 @@ import com.devminj.blog.domain.BaseTime;
 import com.devminj.blog.domain.posts.Post;
 import com.devminj.blog.domain.posts.PostsRepository;
 import com.devminj.blog.domain.posts.Tag;
+import com.devminj.blog.domain.posts.TagRepository;
 import com.devminj.blog.service.post.dto.PostResponseDto;
 import com.devminj.blog.service.post.dto.PostSaveRequestDto;
 import com.devminj.blog.service.post.dto.PostUpdateRequestDto;
@@ -51,6 +52,8 @@ public class PostControllerTest {
 
     @Autowired
     private PostsRepository postsRepository;
+    @Autowired
+    private TagRepository tagRepository;
 
     @Autowired
     private WebApplicationContext context;
@@ -68,6 +71,7 @@ public class PostControllerTest {
     @AfterEach
     public void tearDown() throws Exception{
         postsRepository.deleteAll();
+        tagRepository.deleteAll();
     }
 
     @Test
@@ -112,21 +116,25 @@ public class PostControllerTest {
         String title = "테스트 게시글 제목 1";
         String content = "테스트 게시글 내용 1";
         String author = "테스트 게시글 작가 1";
+        List<String> tags = Arrays.asList("A","B","C");
 
         Post savePost = postsRepository.save(
                 Post.builder()
                         .title(title)
                         .author(author)
                         .content(content)
+                        .tags(tags)
                         .build()
         );
         title = "테스트 게시글 제목 수정됨!! 1";
         content = "테스트 게시글 내용 수정됨!! 1";
+        tags  = Arrays.asList("A","B", "C","D","E");
 
         PostUpdateRequestDto requestDto =
                 PostUpdateRequestDto.builder()
                         .content(content)
                         .title(title)
+                        .tags(tags)
                         .build();
 
         String url = "http://localhost:" + port + "/api/v1/admin/posts/" + savePost.getId();
@@ -146,6 +154,9 @@ public class PostControllerTest {
         assertThat(post.getTitle()).isEqualTo(title);
         assertThat(post.getContent()).isEqualTo(content);
         assertThat(post.getAuthor()).isEqualTo(author);
+        for(Tag tag : post.getTags()){
+            assertThat(tags.contains(tag.getName())).isEqualTo(true);
+        }
         System.out.println(post.getCreateDate() + " " + post.getModifiedDate());
 
     }
@@ -186,11 +197,13 @@ public class PostControllerTest {
     @WithMockUser(roles = "ADMIN")
     public void Post_삭제() throws  Exception{
         //given
+        List<String> tags = Arrays.asList("A","B","C","D");
         Post savePost1 = postsRepository.save(
                 Post.builder()
                         .title("게시글 1")
                         .content("게시글 1")
                         .author("작성자 1")
+                        .tags(tags)
                         .build()
         );
 
@@ -200,19 +213,23 @@ public class PostControllerTest {
         mvc.perform(delete(url))
                 .andExpect(status().isOk());
         //then
-        List<Post> all = postsRepository.findAll();
-        assertThat(all.isEmpty()).isEqualTo(true);
+        List<Post> allPosts = postsRepository.findAll();
+        List<Tag> allTags = tagRepository.findAll();
+        assertThat(allPosts.isEmpty()).isEqualTo(true);
+        assertThat(allTags.isEmpty()).isEqualTo(true);
     }
 
     @Test
     public void BaseTimeEntity_등록(){
         //given
+        List<String> tags = Arrays.asList("A","B");
         String now = LocalDateTime.of(2021,06,01,0,0).format(DateTimeFormatter.ofPattern(BaseTime.DATE_FORMAT));
         postsRepository.save(
                 Post.builder()
                         .title("title")
                         .content("content")
                         .author("author")
+                        .tags(tags)
                         .build());
         //when
         List<Post> posts = postsRepository.findAll();

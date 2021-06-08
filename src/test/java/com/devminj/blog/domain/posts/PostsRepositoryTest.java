@@ -1,5 +1,6 @@
 package com.devminj.blog.domain.posts;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,12 @@ public class PostsRepositoryTest {
 
     @Autowired
     TagRepository tagRepository;
+
+    @BeforeEach
+    void setup(){
+        postsRepository.deleteAll();
+        tagRepository.deleteAll();
+    }
 
     @Test
     public void 게시글_저장하고_불러오기(){

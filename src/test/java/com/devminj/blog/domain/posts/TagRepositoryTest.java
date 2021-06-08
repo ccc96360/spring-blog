@@ -1,5 +1,6 @@
 package com.devminj.blog.domain.posts;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,6 +59,7 @@ public class TagRepositoryTest {
         // then
         for(String name: allNames){
             Long cnt = tagRepository.NumberOfName(name);
+            System.out.println(name + " " + cnt);
             assertThat(cnt).isEqualTo(resultSet.get(name));
         }
     }

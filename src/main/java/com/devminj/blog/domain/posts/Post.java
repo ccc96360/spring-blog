@@ -39,15 +39,12 @@ public class Post extends BaseTime {
         this.tags = stringTagsToEntity(tags);
     }
 
-    public void update(String title, String content){
+    public void update(String title, String content, List<String> tags){
         this.title = title;
         this.content = content;
-
+        this.tags = this.stringTagsToEntity(tags);
     }
     public List<Tag> stringTagsToEntity(List<String> tags){
-        if(tags == null){
-            return new ArrayList<Tag>();
-        }
         List<Tag> ret = new ArrayList<Tag>();
         for(String s : tags){
             ret.add(new Tag(s));
