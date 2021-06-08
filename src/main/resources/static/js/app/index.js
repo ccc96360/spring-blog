@@ -5,7 +5,9 @@ var main = {
             _this.save();
         });
         $('#btn_test').on('click',function(){
+            var tags = $("select").val();
             alert("버튼 눌림!");
+            console.log(tags)
         });
         $('#btn_update').on('click', function(){
             console.log("Update 버튼 눌림");

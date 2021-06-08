@@ -13,6 +13,9 @@
             <input type="text" class="form-control" placeholder="제목" id="title">
         </div>
         <div class="form-group">
+            <th:block th:replace="contents/component/tag_write :: tag_write" id="tags"></th:block>
+        </div>
+        <div class="form-group">
             <label for="author">작성자</label>
             <input readonly type="text" class="form-control" placeholder="작성자" id="author" value="DevMinJ">
         </div>
@@ -32,7 +35,7 @@
     </form>
     <button type="button" class="btn btn-primary" id="btn_save">작성 하기</button>
     <a href="/" id="btn_cancel" class="btn btn-secondary">취소</a>
-
+    <button type="button" class="btn btn-primary" id="btn_test">테스트</button>
 </div>
 
 </html>

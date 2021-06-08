@@ -7,7 +7,7 @@
     <tr th:each="post: ${posts}">
         <div class="col-md-4">
             <div class="single-blog-item">
-                <div class="blog-thumnail">
+                <div class="blog-thumbnail">
                     <a th:href="@{'/post/' + ${post.id}}"><img src="/assets/img/Post_Thumbnail_Default_370x275.png" alt="blog-img"></a>
                 </div>
                 <div class="blog-content">
