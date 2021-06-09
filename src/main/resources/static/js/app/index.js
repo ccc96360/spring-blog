@@ -44,7 +44,8 @@ var main = {
             title : $('#title').val(),
             content : CKEDITOR.instances['content'].getData()
         }
-        data.tags =$("select").val();
+        var a = $("select").val();
+        data.tags = Array.from(new Set(a.values()));
         var id = $('#id').val();
         console.log(JSON.stringify(data))
 
