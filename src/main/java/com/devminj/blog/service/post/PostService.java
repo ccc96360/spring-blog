@@ -18,6 +18,7 @@ import java.util.stream.Collectors;
 @Service
 public class PostService {
     private final PostsRepository postsRepository;
+    private final TagRepository tagRepository;
     @Transactional
     public Long save(PostSaveRequestDto postSaveRequestDto){
         return postsRepository.save(postSaveRequestDto.toEntity()).getId();
@@ -27,6 +28,7 @@ public class PostService {
     public Long update(Long id, PostUpdateRequestDto requestDto){
         Post post = postsRepository.findById(id).orElseThrow(() ->
                 new IllegalArgumentException("해당 게시글이 존재 하지 않습니다. id = " + id));
+        tagRepository.deleteByPostId(post.getId());
         post.update(requestDto.getTitle(), requestDto.getContent(), requestDto.getTags());
         return post.getId();
     }

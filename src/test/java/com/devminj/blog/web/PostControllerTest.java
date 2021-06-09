@@ -61,7 +61,7 @@ public class PostControllerTest {
     private  MockMvc mvc;
 
     @BeforeEach
-    public void setup(){
+    public void setup() throws Exception{
         mvc = MockMvcBuilders
                 .webAppContextSetup(context)
                 .addFilter(new CharacterEncodingFilter("UTF-8", true))
@@ -177,7 +177,6 @@ public class PostControllerTest {
 
         //when
 
-//        ResponseEntity<PostResponseDto> responseEntity = restTemplate.getForEntity(url, PostResponseDto.class);
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.registerModule(new JavaTimeModule());
         objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);

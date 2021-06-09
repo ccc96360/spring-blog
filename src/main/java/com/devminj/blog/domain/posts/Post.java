@@ -27,8 +27,7 @@ public class Post extends BaseTime {
 
     private String author;
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name="post_id")
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "post")
     private List<Tag> tags;
 
     @Builder
@@ -47,7 +46,7 @@ public class Post extends BaseTime {
     public List<Tag> stringTagsToEntity(List<String> tags){
         List<Tag> ret = new ArrayList<Tag>();
         for(String s : tags){
-            ret.add(new Tag(s));
+            ret.add(new Tag(this, s));
         }
         return ret;
     }

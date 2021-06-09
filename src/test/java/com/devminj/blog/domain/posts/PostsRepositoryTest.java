@@ -60,11 +60,11 @@ public class PostsRepositoryTest {
         assertThat(resPost.getContent()).isEqualTo(content);
         assertThat(resPost.getAuthor()).isEqualTo(author);
         for(Tag tag: resPost.getTags()){
-            System.out.println(tag.getName() + " " + tag.getId() + " " + tag.getPostId());
+            System.out.println(tag.getName() + " " + tag.getId() + " " + tag.getPost().getId());
         }
         List<Tag> allTags = tagRepository.findAll();
         for(Tag tag: allTags){
-            System.out.println(tag.getName() + " " + tag.getId() + " " + tag.getPostId());
+            System.out.println(tag.getName() + " " + tag.getId() + " " + tag.getPost().getId());
         }
     }
 

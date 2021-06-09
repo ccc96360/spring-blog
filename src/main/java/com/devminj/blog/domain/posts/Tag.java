@@ -15,12 +15,14 @@ public class Tag {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name="post_id")
-    private Long postId;
-
     private String name;
 
-    public Tag(String name) {
+    @ManyToOne(optional = false)
+    @JoinColumn(name="post_id")
+    private Post post;
+
+    public Tag(Post post, String name) {
+        this.post = post;
         this.name = name;
     }
 }
