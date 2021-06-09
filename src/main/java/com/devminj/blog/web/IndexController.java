@@ -4,6 +4,8 @@ import com.devminj.blog.config.auth.LoginUser;
 import com.devminj.blog.config.auth.dto.SessionUser;
 import com.devminj.blog.service.post.PostService;
 import com.devminj.blog.service.post.dto.PostResponseDto;
+import com.devminj.blog.service.tag.TagService;
+import com.devminj.blog.service.tag.dto.TagCountByNameResponseDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
 import org.springframework.data.domain.Pageable;
@@ -18,11 +20,16 @@ import javax.servlet.http.HttpSession;
 @Controller
 public class IndexController {
     private final PostService postService;
+    private final TagService tagService;
     private final HttpSession httpSession;
 
     @GetMapping("/")
     public String home(Model model, @LoginUser SessionUser user){
         model.addAttribute("posts", postService.findAllDesc());
+        for(TagCountByNameResponseDto tag : tagService.findNameAndCount()){
+            System.out.println(tag.getName() + " " + tag.getCount());
+        }
+        model.addAttribute("tags", tagService.findNameAndCount());
         model.addAttribute("role","ROLE_GUEST");
         if(user != null){
             if(user.getPlatform().equals("github")) model.addAttribute("userName", user.getSiteId());
@@ -34,7 +41,7 @@ public class IndexController {
     @GetMapping("/post/{id}")
     public String post(Model model, @LoginUser SessionUser user, @PathVariable Long id){
         PostResponseDto postResponseDto = postService.findById(id);
-        System.out.println(postResponseDto.getTags());
+
         model.addAttribute("post", postResponseDto);
         model.addAttribute("role","ROLE_GUEST");
         if(user != null){

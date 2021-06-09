@@ -1,5 +1,6 @@
 package com.devminj.blog.domain.posts;
 
+import com.devminj.blog.service.tag.dto.TagCountByNameResponseDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -26,6 +27,45 @@ public class TagRepositoryTest {
     public void setup(){
         postsRepository.deleteAll();
         tagRepository.deleteAll();
+    }
+
+    @Test
+    public void 모든_태그별_개수(){
+        //given
+        String title = "title1";
+        String author = "author";
+        String content = "content";
+
+        List<String> tags1 = Arrays.asList("A","B","C","D");
+        List<String> tags2 = Arrays.asList("A","D");
+
+        HashMap<String, Long> resultSet = new HashMap<>();
+        resultSet.put("A", 2L);
+        resultSet.put("B", 1L);
+        resultSet.put("C", 1L);
+        resultSet.put("D", 2L);
+
+        postsRepository.save(Post.builder()
+                .tags(tags1)
+                .author(author)
+                .content(content)
+                .title(title)
+                .build());
+        postsRepository.save(Post.builder()
+                .tags(tags2)
+                .author(author)
+                .content(content)
+                .title(title)
+                .build());
+        //when;
+        List<TagCountByNameResponseDto> result = tagRepository.countGroupByName();
+        //then
+        for(TagCountByNameResponseDto tag : result){
+            String name = tag.getName();
+            Long cnt = tag.getCount();
+            System.out.println("==" + name + " " + cnt + " " + resultSet.get(name));
+            assertThat(cnt).isEqualTo(resultSet.get(name));
+        }
     }
 
     @Test

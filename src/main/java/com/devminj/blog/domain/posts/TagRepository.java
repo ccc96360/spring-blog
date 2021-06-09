@@ -1,5 +1,6 @@
 package com.devminj.blog.domain.posts;
 
+import com.devminj.blog.service.tag.dto.TagCountByNameResponseDto;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -15,6 +16,13 @@ public interface TagRepository extends JpaRepository<Tag, Long> {
 
     @Query("Select count(*) from Tag t where t.name = :name and post_id is not null")
     Long NumberOfName(@Param("name") String name);
+
+    @Query("Select" +
+                " new com.devminj.blog.service.tag.dto.TagCountByNameResponseDto(t.name, count(t))" +
+            " from" +
+                " Tag t" +
+            " group by t.name")
+    List<TagCountByNameResponseDto> countGroupByName();
 
     @Modifying
     @Transactional
