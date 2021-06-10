@@ -36,7 +36,7 @@ public class IndexController {
     @GetMapping("/post/{id}")
     public String post(Model model, @LoginUser SessionUser user, @PathVariable Long id){
         PostResponseDto postResponseDto = postService.findById(id);
-
+        model.addAttribute("other_posts", postService.findAllDesc());
         model.addAttribute("post", postResponseDto);
         model.addAttribute("role","ROLE_GUEST");
         if(user != null){

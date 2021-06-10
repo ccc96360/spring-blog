@@ -18,3 +18,8 @@ create table user (
     site_id varchar(255),
     primary key (id)
 ) engine=MyISAM
+
+alter table tag
+   add constraint FK7tk5hi5tl1txftyn44dtq2mv6
+   foreign key (post_id)
+   references post (id)

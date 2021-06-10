@@ -13,17 +13,9 @@
             </tr>
         </thead>
         <tbody>
-            <tr onclick="location.href='1'">
-                <td>제목이 이렇게 들어가는것 (1) - 제목</td>
-                <td class="text-right">21년 09월 12일 12시 59분</td>
-            </tr>
-            <tr onclick="location.href='2'">
-                <td>제목이 이렇게 들어가는것 (2) - 제목</td>
-                <td class="text-right">21년 09월 12일 12시 59분</td>
-            </tr>
-            <tr onclick="location.href='4'">
-                <td>제목이 이렇게 들어가는것 (3) - 제목</td>
-                <td class="text-right">21년 09월 12일 12시 59분</td>
+            <tr th:onclick="|location.href='@{${other_post.id}}'|" th:each="other_post: ${other_posts}">
+                <td th:text="${other_post.title}"></td>
+                <td class="text-right" th:text="${other_post.modifiedTime}">마지막 수정 날짜</td>
             </tr>
         </tbody>
     </table>
