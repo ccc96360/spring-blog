@@ -4,7 +4,8 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 >
 <div th:fragment="tags">
-    <a href = "#" type="button" class="btn btn-primary" th:inline="text" th:each="tag : ${tags}">
+    <a href="/" type = "button" class="btn btn-primary">전체 보기</a>
+    <a th:href = "@{'/tag/' + ${tag.name}}" type="button" class="btn btn-primary" th:inline="text" th:each="tag : ${tags}">
         [[${tag.name}]] <span class="badge" th:text="${tag.count}"></span>
     </a>
 </div>

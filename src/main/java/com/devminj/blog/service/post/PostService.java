@@ -51,6 +51,11 @@ public class PostService {
                 .map(PostListResponseDto::new)
                 .collect(Collectors.toList());
     }
-
+    @Transactional
+    public List<PostListResponseDto> findByTagName(String name){
+        return tagRepository.findAllPostsByTagName(name).stream()
+                .map(PostListResponseDto::new)
+                .collect(Collectors.toList());
+    }
 
 }

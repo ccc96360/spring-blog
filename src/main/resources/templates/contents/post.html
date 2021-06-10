@@ -13,7 +13,7 @@
     <div id="post_info" class="row" style="border-bottom: solid 1px #dedede">
         <p>Tags:
             <tr th:each="tag :${post.tags}">
-                <a href="#"><span class="label label-info" th:text="${tag}"></span></a>
+                <a th:href="@{'/tag/' + ${tag}}"><span class="label label-info" th:text="${tag}"></span></a>
             </tr>
                 | <i class="fas fa-user"></i> <span th:text="${post.author}">Admin</span>
                 | <span th:text="@{'마지막 수정 일:' + ${post.modifiedTime}}">마지막 수정 날짜</span>

@@ -30,6 +30,47 @@ public class TagRepositoryTest {
     }
 
     @Test
+    public void 태그가_같은_모든_게시글_찾기(){
+        //given
+        List<String> tags1 = Arrays.asList("A","B","C");
+        List<String> tags2 = Arrays.asList("A","C");
+        List<String> tags3 = Arrays.asList("C");
+
+        postsRepository.save(Post.builder()
+                .title("1번")
+                .author("1")
+                .content("1")
+                .tags(tags1)
+                .build());
+        postsRepository.save(Post.builder()
+                .title("2번")
+                .author("2")
+                .content("2")
+                .tags(tags2)
+                .build());
+        postsRepository.save(Post.builder()
+                .title("3번")
+                .author("3")
+                .content("3")
+                .tags(tags3)
+                .build());
+        //when
+        List<Post> posts1 = tagRepository.findAllPostsByTagName("A");
+        List<Post> posts2 = tagRepository.findAllPostsByTagName("B");
+        List<Post> posts3 = tagRepository.findAllPostsByTagName("C");
+        List<List<Post>> allPosts = Arrays.asList(posts1, posts2, posts3);
+        //then
+        for(List<Post> posts: allPosts) {
+            for (Post post : posts) {
+                System.out.println(post.getId() + " " + post.getTitle() + " " + post.getAuthor() + " " + post.getContent());
+            }
+        }
+        assertThat(posts1.size()).isEqualTo(2);
+        assertThat(posts2.size()).isEqualTo(1);
+        assertThat(posts3.size()).isEqualTo(3);
+    }
+
+    @Test
     public void 모든_태그별_개수(){
         //given
         String title = "title1";

@@ -28,4 +28,8 @@ public interface TagRepository extends JpaRepository<Tag, Long> {
     @Transactional
     @Query("Delete From Tag where post_id = :id")
     void deleteByPostId(@Param("id") Long id);
+
+    @Query("Select t.post from Tag t where t.name = :name order by t.id desc")
+    List<Post> findAllPostsByTagName(@Param("name") String name);
+
 }
