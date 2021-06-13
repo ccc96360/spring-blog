@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+>
+<div th:fragment="info">
+    <h4 th:text="${'에러 코드:' + status}"></h4>
+    <h4 th:text="${'error: ' + error}"></h4>
+</div>
+</html>
