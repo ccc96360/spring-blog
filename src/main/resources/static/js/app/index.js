@@ -16,7 +16,10 @@ var main = {
         $('#btn_delete').on('click', function(){
             console.log("Delete 버튼 눌림");
             _this.delete();
-        })
+        });
+        $('#btn_search').on('click', function(){
+            _this.search();
+        });
     },
     save: function(){
         var data = {
@@ -75,7 +78,10 @@ var main = {
         }).fail(function(err) {
             alert(JSON.stringify(err))
         });
-
+    },
+    search: function(){
+        var keyword = $('#keyword').val();
+        window.location.href='/search/'+ keyword;
     }
 
 

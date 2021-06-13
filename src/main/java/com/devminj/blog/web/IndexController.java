@@ -90,4 +90,16 @@ public class IndexController {
         }
         return "contents/index";
     }
+    @GetMapping("/search/{keyword}")
+    public String home(Model model, @LoginUser SessionUser user, @PathVariable String keyword){
+        model.addAttribute("posts", postService.findByKeyWord(keyword));
+        model.addAttribute("tags", tagService.findNameAndCount());
+        model.addAttribute("role","ROLE_GUEST");
+        if(user != null){
+            if(user.getPlatform().equals("github")) model.addAttribute("userName", user.getSiteId());
+            model.addAttribute("role", user.getRole());
+        }
+        System.out.println("keyword: " + keyword);
+        return "contents/index";
+    }
 }

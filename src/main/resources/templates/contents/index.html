@@ -5,6 +5,20 @@
       layout:decorator="default_layout"
 >
 <div class="container" layout:fragment="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div id="custom-search-input">
+                <div class="input-group col-md-12">
+                    <input id="keyword" type="text" class="form-control input-lg" placeholder="게시글 제목 검색"/>
+                    <span class="input-group-btn">
+                        <button id="btn_search" class="btn btn-info btn-lg" type="button">
+                            <i class="glyphicon glyphicon-search"></i>
+                        </button>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
     <th:block th:replace="contents/component/tags :: tags"></th:block>
     <th:block th:replace="contents/component/post_list :: posts"></th:block>
     <!-- Pager-->

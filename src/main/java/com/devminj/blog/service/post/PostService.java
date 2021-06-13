@@ -57,5 +57,10 @@ public class PostService {
                 .map(PostListResponseDto::new)
                 .collect(Collectors.toList());
     }
-
+    @Transactional
+    public List<PostListResponseDto> findByKeyWord(String keyword){
+        return postsRepository.findByKeyWordDesc(keyword).stream()
+                .map(PostListResponseDto::new)
+                .collect(Collectors.toList());
+    }
 }

@@ -68,5 +68,38 @@ public class PostsRepositoryTest {
         }
     }
 
+    @Test
+    public void 제목_특정_키워드_검색(){
+        //given
+        String author = "작가";
+        String content = "내용";
+        List<String> tags = Arrays.asList("A","B","C");
+        postsRepository.save(Post.builder()
+                .tags(tags)
+                .content(content)
+                .author(author)
+                .title("제목 입니다.")
+                .build());
+        postsRepository.save(Post.builder()
+                .tags(tags)
+                .content(content)
+                .author(author)
+                .title("Title 입니다.")
+                .build());
+        postsRepository.save(Post.builder()
+                .tags(tags)
+                .content(content)
+                .author(author)
+                .title("Just Title")
+                .build());
+        //when
+        List<Post> posts1 = postsRepository.findByKeyWordDesc("입니다");
+        List<Post> posts2 = postsRepository.findByKeyWordDesc("Title");
+        List<Post> posts3 = postsRepository.findByKeyWordDesc("제목 입니다.");
+        // then
+        assertThat(posts1.size()).isEqualTo(2);
+        assertThat(posts2.size()).isEqualTo(2);
+
+    }
 
 }
