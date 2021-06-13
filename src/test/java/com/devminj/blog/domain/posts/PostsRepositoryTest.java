@@ -5,6 +5,11 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.Arrays;
@@ -93,12 +98,13 @@ public class PostsRepositoryTest {
                 .title("Just Title")
                 .build());
         //when
-        List<Post> posts1 = postsRepository.findByKeyWordDesc("입니다");
-        List<Post> posts2 = postsRepository.findByKeyWordDesc("Title");
-        List<Post> posts3 = postsRepository.findByKeyWordDesc("제목 입니다.");
+        Pageable pageable = PageRequest.of(0, 9, Sort.Direction.DESC, "id");
+        Page<Post> posts1 = postsRepository.findByTitleContaining("입니다", pageable);
+        Page<Post> posts2 = postsRepository.findByTitleContaining("Title", pageable);
+        Page<Post> posts3 = postsRepository.findByTitleContaining("제목 입니다.", pageable);
         // then
-        assertThat(posts1.size()).isEqualTo(2);
-        assertThat(posts2.size()).isEqualTo(2);
+        assertThat(posts1.getTotalElements()).isEqualTo(2L);
+        assertThat(posts2.getTotalElements()).isEqualTo(2L);
 
     }
 

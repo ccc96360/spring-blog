@@ -8,6 +8,9 @@ import com.devminj.blog.service.post.dto.PostResponseDto;
 import com.devminj.blog.service.post.dto.PostSaveRequestDto;
 import com.devminj.blog.service.post.dto.PostUpdateRequestDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -52,15 +55,17 @@ public class PostService {
                 .collect(Collectors.toList());
     }
     @Transactional
-    public List<PostListResponseDto> findByTagName(String name){
-        return tagRepository.findAllPostsByTagName(name).stream()
-                .map(PostListResponseDto::new)
-                .collect(Collectors.toList());
+    public Page<PostListResponseDto> findByTagName(String name, Pageable pageable){
+        return tagRepository.findAllPostsByTagName(name, pageable)
+                .map(PostListResponseDto::new);
     }
     @Transactional
-    public List<PostListResponseDto> findByKeyWord(String keyword){
-        return postsRepository.findByKeyWordDesc(keyword).stream()
-                .map(PostListResponseDto::new)
-                .collect(Collectors.toList());
+    public Page<PostListResponseDto> findByKeyWord(String keyword, Pageable pageable){
+        return postsRepository.findByTitleContaining(keyword, pageable)
+                .map(PostListResponseDto::new);
+    }
+    @Transactional
+    public Page<PostListResponseDto> findAllWithPage(Pageable pageable){
+        return postsRepository.findAll(pageable).map(PostListResponseDto::new);
     }
 }

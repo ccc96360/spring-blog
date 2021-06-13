@@ -6,6 +6,10 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.Arrays;
@@ -55,19 +59,20 @@ public class TagRepositoryTest {
                 .tags(tags3)
                 .build());
         //when
-        List<Post> posts1 = tagRepository.findAllPostsByTagName("A");
-        List<Post> posts2 = tagRepository.findAllPostsByTagName("B");
-        List<Post> posts3 = tagRepository.findAllPostsByTagName("C");
-        List<List<Post>> allPosts = Arrays.asList(posts1, posts2, posts3);
+        Pageable pageable = PageRequest.of(0, 9, Sort.Direction.DESC, "id");
+        Page<Post> posts1 = tagRepository.findAllPostsByTagName("A", pageable);
+        Page<Post> posts2 = tagRepository.findAllPostsByTagName("B", pageable);
+        Page<Post> posts3 = tagRepository.findAllPostsByTagName("C", pageable);
+        List<Page<Post>> allPosts = Arrays.asList(posts1, posts2, posts3);
         //then
-        for(List<Post> posts: allPosts) {
+        for(Page<Post> posts: allPosts) {
             for (Post post : posts) {
                 System.out.println(post.getId() + " " + post.getTitle() + " " + post.getAuthor() + " " + post.getContent());
             }
         }
-        assertThat(posts1.size()).isEqualTo(2);
-        assertThat(posts2.size()).isEqualTo(1);
-        assertThat(posts3.size()).isEqualTo(3);
+        assertThat(posts1.getTotalElements()).isEqualTo(2L);
+        assertThat(posts2.getTotalElements()).isEqualTo(1L);
+        assertThat(posts3.getTotalElements()).isEqualTo(3L);
     }
 
     @Test

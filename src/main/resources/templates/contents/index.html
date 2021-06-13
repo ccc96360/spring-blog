@@ -22,8 +22,8 @@
     <th:block th:replace="contents/component/tags :: tags"></th:block>
     <th:block th:replace="contents/component/post_list :: posts"></th:block>
     <!-- Pager-->
-    <div class="alert alert-danger" >더 이상의 포스트는 없습니다.</div>
-    <div class="d-flex justify-content-end mb-4"><a class="btn btn-primary text-uppercase" href="#!">Older Posts →</a></div>
+    <div class="alert alert-danger"  th:if="${is_last_page}">더 이상의 포스트는 없습니다.</div>
+    <th:block th:replace="contents/component/pager :: pager"></th:block>
 </div>
 
 

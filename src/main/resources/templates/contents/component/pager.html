@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+>
+ <div th:fragment="pager" class="text-center">
+        <ul class="pagination">
+            <li th:each="idx : ${#numbers.sequence(0, total_page_num-1)}" th:inline="text">
+                <a th:href="@{'?page=' + ${idx}}" th:text="${idx+1}">page</a>
+            </li>
+        </ul>
+</div>
+</html>

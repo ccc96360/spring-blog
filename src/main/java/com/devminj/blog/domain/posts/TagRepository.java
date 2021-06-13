@@ -1,6 +1,8 @@
 package com.devminj.blog.domain.posts;
 
 import com.devminj.blog.service.tag.dto.TagCountByNameResponseDto;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -30,6 +32,6 @@ public interface TagRepository extends JpaRepository<Tag, Long> {
     void deleteByPostId(@Param("id") Long id);
 
     @Query("Select t.post from Tag t where t.name = :name order by t.id desc")
-    List<Post> findAllPostsByTagName(@Param("name") String name);
+    Page<Post> findAllPostsByTagName(@Param("name") String name, Pageable pageable);
 
 }

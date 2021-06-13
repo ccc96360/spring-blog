@@ -2,13 +2,16 @@ package com.devminj.blog.web;
 
 import com.devminj.blog.config.auth.LoginUser;
 import com.devminj.blog.config.auth.dto.SessionUser;
+import com.devminj.blog.domain.posts.Post;
 import com.devminj.blog.service.post.PostService;
+import com.devminj.blog.service.post.dto.PostListResponseDto;
 import com.devminj.blog.service.post.dto.PostResponseDto;
 import com.devminj.blog.service.tag.TagService;
-import com.devminj.blog.service.tag.dto.TagCountByNameResponseDto;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.java.Log;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,8 +25,16 @@ public class IndexController {
     private final TagService tagService;
 
     @GetMapping("/")
-    public String home(Model model, @LoginUser SessionUser user){
-        model.addAttribute("posts", postService.findAllDesc());
+    public String home(Model model, @LoginUser SessionUser user, @PageableDefault(size=9, sort="id", direction = Sort.Direction.DESC) Pageable pageable){
+        //model.addAttribute("posts", postService.findAllDesc());
+        Page<PostListResponseDto> allPosts = postService.findAllWithPage(pageable);
+        int totalPageNum = allPosts.getTotalPages();
+        totalPageNum = (totalPageNum > 0) ? totalPageNum : 1;
+
+        model.addAttribute("posts", allPosts);
+        model.addAttribute("total_page_num", totalPageNum);
+        model.addAttribute("is_last_page", allPosts.isLast());
+
         model.addAttribute("tags", tagService.findNameAndCount());
         model.addAttribute("role","ROLE_GUEST");
         if(user != null){
@@ -34,10 +45,16 @@ public class IndexController {
     }
 
     @GetMapping("/post/{id}")
-    public String post(Model model, @LoginUser SessionUser user, @PathVariable Long id){
+    public String post(Model model, @LoginUser SessionUser user, @PathVariable Long id, @PageableDefault(size=10, sort="id", direction = Sort.Direction.DESC) Pageable pageable){
         PostResponseDto postResponseDto = postService.findById(id);
-        model.addAttribute("other_posts", postService.findAllDesc());
+
+        Page<PostListResponseDto> allPosts = postService.findAllWithPage(pageable);
+        int totalPageNum = allPosts.getTotalPages();
+        totalPageNum = (totalPageNum > 0) ? totalPageNum : 1;
+
         model.addAttribute("post", postResponseDto);
+        model.addAttribute("other_posts", allPosts);
+        model.addAttribute("total_page_num", totalPageNum);;
         model.addAttribute("role","ROLE_GUEST");
         if(user != null){
             if(user.getPlatform().equals("github")) model.addAttribute("userName", user.getSiteId());
@@ -80,8 +97,15 @@ public class IndexController {
     }
 
     @GetMapping("/tag/{name}")
-    public String tagPosts(Model model, @LoginUser SessionUser user, @PathVariable String name){
-        model.addAttribute("posts", postService.findByTagName(name));
+    public String tagPosts(Model model, @LoginUser SessionUser user, @PathVariable String name, @PageableDefault(size=9, sort="id", direction = Sort.Direction.DESC) Pageable pageable){
+        Page<PostListResponseDto> allPosts = postService.findByTagName(name, pageable);
+        int totalPageNum = allPosts.getTotalPages();
+        totalPageNum = (totalPageNum > 0) ? totalPageNum : 1;
+
+        model.addAttribute("posts", allPosts);
+        model.addAttribute("total_page_num", totalPageNum);
+        model.addAttribute("is_last_page", allPosts.isLast());
+
         model.addAttribute("tags", tagService.findNameAndCount());
         model.addAttribute("role", "ROLE_GUEST");
         if(user != null){
@@ -91,8 +115,15 @@ public class IndexController {
         return "contents/index";
     }
     @GetMapping("/search/{keyword}")
-    public String home(Model model, @LoginUser SessionUser user, @PathVariable String keyword){
-        model.addAttribute("posts", postService.findByKeyWord(keyword));
+    public String home(Model model, @LoginUser SessionUser user, @PathVariable String keyword, @PageableDefault(size=9, sort="id", direction = Sort.Direction.DESC) Pageable pageable){
+        Page<PostListResponseDto> allPosts = postService.findByKeyWord(keyword, pageable);
+        int totalPageNum = allPosts.getTotalPages();
+        totalPageNum = (totalPageNum > 0) ? totalPageNum : 1;
+
+        model.addAttribute("posts", allPosts);
+        model.addAttribute("total_page_num", totalPageNum);
+        model.addAttribute("is_last_page", allPosts.isLast());
+
         model.addAttribute("tags", tagService.findNameAndCount());
         model.addAttribute("role","ROLE_GUEST");
         if(user != null){
@@ -101,5 +132,6 @@ public class IndexController {
         }
         System.out.println("keyword: " + keyword);
         return "contents/index";
+
     }
 }
