@@ -26,112 +26,80 @@ public class IndexController {
 
     @GetMapping("/")
     public String home(Model model, @LoginUser SessionUser user, @PageableDefault(size=9, sort="id", direction = Sort.Direction.DESC) Pageable pageable){
-        //model.addAttribute("posts", postService.findAllDesc());
+        commonSetUp(model, user);
+
         Page<PostListResponseDto> allPosts = postService.findAllWithPage(pageable);
-        int totalPageNum = allPosts.getTotalPages();
-        totalPageNum = (totalPageNum > 0) ? totalPageNum : 1;
+        postListSetUp(model, allPosts);
 
-        model.addAttribute("posts", allPosts);
-        model.addAttribute("total_page_num", totalPageNum);
-        model.addAttribute("is_last_page", allPosts.isLast());
-
-        model.addAttribute("tags", tagService.findNameAndCount());
-        model.addAttribute("role","ROLE_GUEST");
-        if(user != null){
-            if(user.getPlatform().equals("github")) model.addAttribute("userName", user.getSiteId());
-            model.addAttribute("role", user.getRole());
-        }
         return "contents/index";
     }
 
     @GetMapping("/post/{id}")
     public String post(Model model, @LoginUser SessionUser user, @PathVariable Long id, @PageableDefault(size=10, sort="id", direction = Sort.Direction.DESC) Pageable pageable){
+        commonSetUp(model, user);
+
         PostResponseDto postResponseDto = postService.findById(id);
+        model.addAttribute("post", postResponseDto);
 
         Page<PostListResponseDto> allPosts = postService.findAllWithPage(pageable);
         int totalPageNum = allPosts.getTotalPages();
         totalPageNum = (totalPageNum > 0) ? totalPageNum : 1;
-
-        model.addAttribute("post", postResponseDto);
         model.addAttribute("other_posts", allPosts);
         model.addAttribute("total_page_num", totalPageNum);;
-        model.addAttribute("role","ROLE_GUEST");
-        if(user != null){
-            if(user.getPlatform().equals("github")) model.addAttribute("userName", user.getSiteId());
-            model.addAttribute("role", user.getRole());
-        }
-        return "contents/post";
-    }
 
-    @GetMapping("/contact")
-    public String contact(Model model, @LoginUser SessionUser user){
-        model.addAttribute("role","ROLE_GUEST");
-        if(user != null){
-            if(user.getPlatform().equals("github")) model.addAttribute("userName", user.getSiteId());
-            model.addAttribute("role", user.getRole());
-        }
-        return "contents/contact";
+        return "contents/post";
     }
 
     @GetMapping("/post/write")
     public String postWrite(Model model, @LoginUser SessionUser user){
-        model.addAttribute("role","ROLE_GUEST");
-        if(user != null){
-            if(user.getPlatform().equals("github")) model.addAttribute("userName", user.getSiteId());
-            model.addAttribute("role", user.getRole());
-        }
+        commonSetUp(model, user);
         return "contents/post_write";
     }
 
     @GetMapping("/post/update/{id}")
     public String postUpdate(Model model, @LoginUser SessionUser user, @PathVariable Long id){
-        PostResponseDto postResponseDto = postService.findById(id);
+        commonSetUp(model, user);
 
+        PostResponseDto postResponseDto = postService.findById(id);
         model.addAttribute("post", postResponseDto);
-        model.addAttribute("role", "ROLE_GUEST");
-        if(user != null){
-            if(user.getPlatform().equals("github")) model.addAttribute("userName", user.getSiteId());
-            model.addAttribute("role", user.getRole());
-        }
+
         return "contents/post_update";
     }
 
     @GetMapping("/tag/{name}")
     public String tagPosts(Model model, @LoginUser SessionUser user, @PathVariable String name, @PageableDefault(size=9, sort="id", direction = Sort.Direction.DESC) Pageable pageable){
+        commonSetUp(model, user);
+
         Page<PostListResponseDto> allPosts = postService.findByTagName(name, pageable);
-        int totalPageNum = allPosts.getTotalPages();
-        totalPageNum = (totalPageNum > 0) ? totalPageNum : 1;
+        postListSetUp(model, allPosts);
 
-        model.addAttribute("posts", allPosts);
-        model.addAttribute("total_page_num", totalPageNum);
-        model.addAttribute("is_last_page", allPosts.isLast());
-
-        model.addAttribute("tags", tagService.findNameAndCount());
-        model.addAttribute("role", "ROLE_GUEST");
-        if(user != null){
-            if(user.getPlatform().equals("github")) model.addAttribute("userName", user.getSiteId());
-            model.addAttribute("role", user.getRole());
-        }
         return "contents/index";
     }
     @GetMapping("/search/{keyword}")
-    public String home(Model model, @LoginUser SessionUser user, @PathVariable String keyword, @PageableDefault(size=9, sort="id", direction = Sort.Direction.DESC) Pageable pageable){
+    public String search(Model model, @LoginUser SessionUser user, @PathVariable String keyword, @PageableDefault(size=9, sort="id", direction = Sort.Direction.DESC) Pageable pageable){
+        commonSetUp(model, user);
+
         Page<PostListResponseDto> allPosts = postService.findByKeyWord(keyword, pageable);
-        int totalPageNum = allPosts.getTotalPages();
-        totalPageNum = (totalPageNum > 0) ? totalPageNum : 1;
+        postListSetUp(model, allPosts);
 
-        model.addAttribute("posts", allPosts);
-        model.addAttribute("total_page_num", totalPageNum);
-        model.addAttribute("is_last_page", allPosts.isLast());
+        return "contents/index";
+    }
 
-        model.addAttribute("tags", tagService.findNameAndCount());
+    private void commonSetUp(Model model, SessionUser user){
         model.addAttribute("role","ROLE_GUEST");
         if(user != null){
             if(user.getPlatform().equals("github")) model.addAttribute("userName", user.getSiteId());
             model.addAttribute("role", user.getRole());
         }
-        System.out.println("keyword: " + keyword);
-        return "contents/index";
+    }
+    private void postListSetUp(Model model, Page<PostListResponseDto> allPosts){
+        int totalPageNum = allPosts.getTotalPages();
+        totalPageNum = (totalPageNum > 0) ? totalPageNum : 1;
 
+        model.addAttribute("posts", allPosts);
+        model.addAttribute("total_page_num", totalPageNum);
+        model.addAttribute("is_last_page", allPosts.isLast());
+
+        model.addAttribute("tags", tagService.findNameAndCount());
     }
 }
