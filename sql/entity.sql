@@ -8,6 +8,13 @@ create table post (
     primary key (id)
 ) engine=MyISAM;
 
+create table tag (
+   id bigint not null auto_increment,
+    name varchar(255),
+    post_id bigint not null,
+    primary key (id)
+) engine=MyISAM
+
 create table user (
    id bigint not null auto_increment,
     email varchar(255),
