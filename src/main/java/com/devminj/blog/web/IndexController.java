@@ -2,7 +2,6 @@ package com.devminj.blog.web;
 
 import com.devminj.blog.config.auth.LoginUser;
 import com.devminj.blog.config.auth.dto.SessionUser;
-import com.devminj.blog.domain.posts.Post;
 import com.devminj.blog.service.post.PostService;
 import com.devminj.blog.service.post.dto.PostListResponseDto;
 import com.devminj.blog.service.post.dto.PostResponseDto;

@@ -10,13 +10,10 @@
         <div align="left" class="col-md-8"><h2 th:text="${post.title}" >Default Title</h2></div>
 
     </div>
-    <div id="post_info" class="row" style="border-bottom: solid 1px #dedede">
-        <p>Tags:
-            <tr th:each="tag :${post.tags}">
-                <a th:href="@{'/tag/' + ${tag}}"><span class="label label-info" th:text="${tag}"></span></a>
-            </tr>
-                | <i class="fas fa-user"></i> <span th:text="${post.author}">Admin</span>
-                | <span th:text="@{'마지막 수정 일:' + ${post.modifiedTime}}">마지막 수정 날짜</span>
+    <div id="post_info" class="row" style="border-bottom: solid 1px #dedede; margin-top: 2px">
+        <p>
+            <i class="fas fa-user"></i> <span th:text="${post.author}">Admin</span>
+            <span class="pull-right" th:text="@{'마지막 수정 날짜: ' + ${post.modifiedTime}}">마지막 수정 날짜</span>
         </p>
     </div>
     <div th:if="${role == 'ROLE_ADMIN'}" id="controller" class="row">
@@ -31,6 +28,13 @@
             document.write(content);
         </script>
     </div>
+    <div style="border-bottom solid 1px #dedede">
+        <p >Tags:
+            <tr th:each="tag :${post.tags}">
+                <a th:href="@{'/tag/' + ${tag}}"><span class="label label-info" th:text="${tag}"></span></a>
+            </tr>
+        </p>
+    </div>
     <script src="https://utteranc.es/client.js"
             repo="ccc96360/blog-comment"
             issue-term="pathname"
@@ -40,6 +44,6 @@
             async>
     </script>
     <th:block th:replace="contents/component/post_list_mini :: posts_mini"></th:block>
-    <a href = "/" type="button" class="btn btn-secondary pull-left">홈으로 돌아가기</a>
+    <a href = "/" type="button" class="btn btn-info pull-left">홈으로 돌아가기</a>
 </div>
 </html>
